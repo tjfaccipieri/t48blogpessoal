@@ -14,13 +14,14 @@ export class EntrarComponent implements OnInit {
 
   constructor(private auth: AuthService, private router: Router) {}
 
+
+
   ngOnInit(): void {}
 
   logar() {
     this.auth.logar(this.usuarioLogin).subscribe({
       next: (resp: UsuarioLogin) => {
         this.usuarioLogin = resp;
-        alert('Usuario Logado com sucesso');
 
         environment.id = this.usuarioLogin.id;
         environment.nome = this.usuarioLogin.nome
@@ -37,5 +38,16 @@ export class EntrarComponent implements OnInit {
         }
       },
     });
+  }
+
+  validaEmail() {
+    let regex = /.+\@.+\..+/
+    if(this.usuarioLogin.usuario.match(regex)) {
+      let txtEmail = (<HTMLDivElement>document.querySelector('#txtEmail'))
+      txtEmail.innerHTML = 'E-mail válido'
+    } else {
+      let txtEmail = (<HTMLDivElement>document.querySelector('#txtEmail'))
+      txtEmail.innerHTML = 'E-mail inválido'
+    }
   }
 }
