@@ -5,14 +5,14 @@
       <div class="row d-flex justify-content-center">
         <div class="col-md-8">
           <h1 class="text-center">Cadastrar</h1>
-          <form>
+          <form >
             <div class="form-group">
               <label for="">Nome Completo:</label>
-              <input type="text" class="form-control" name="nome" [(ngModel)]="usuario.nome">
+              <input type="text" class="form-control"  name="nome" [(ngModel)]="usuario.nome"  >
             </div>
             <div class="form-group">
               <label for="">Nome de Usuário:</label>
-              <input type="email" class="form-control" name="email" [(ngModel)]="usuario.usuario">
+              <input type="email" class="form-control" placeholder="Digite um e-mail válido" name="email" [(ngModel)]="usuario.usuario">
             </div>
             <div class="form-group">
               <label for="">URL da foto:</label>

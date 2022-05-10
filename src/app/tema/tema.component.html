@@ -8,11 +8,12 @@
         <form>
           <div class="form-group">
             <label for="">Descrição do tema</label>
-            <input type="text" id="tema" name="tema" class="form-control">
+            <input type="text" id="tema" name="tema" class="form-control" [(ngModel)]="tema.descricao">
           </div>
 
           <div>
-            <button class="btn btn-outline-light d-block mx-auto w-50">Cadastrar tema</button>
+            <button class="btn btn-outline-light d-block mx-auto w-50" (click)="cadastrarTema()"
+            [disabled]="tema.descricao == null">Cadastrar tema</button>
           </div>
         </form>
       </div>
@@ -25,33 +26,31 @@
 
 <div class="container mt-4">
   <h2 class="text-center mb-3">Temas cadastrados:</h2>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Descrição</th>
+            <th scope="col" class="text-center">Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tema of listaTemas; index as id">
+            <th scope="row">{{tema.id}}</th>
+            <td>{{tema.descricao}}</td>
+            <td>
+              <div class="d-flex justify-content-around">
+                <button class="btn btn-outline-info" [routerLink]="['/temaEdit', tema.id]">Editar</button>
+                <button class="btn btn-outline-danger" [routerLink]="['/temaDelete', tema.id]">Apagar</button>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
