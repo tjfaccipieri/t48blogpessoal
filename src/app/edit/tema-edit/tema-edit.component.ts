@@ -2,6 +2,7 @@ import { Tema } from './../../model/Tema';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TemaService } from './../../service/tema.service';
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-tema-edit',
@@ -20,6 +21,11 @@ export class TemaEditComponent implements OnInit {
 
   ngOnInit(){
     window.scroll(0,0)
+
+    if(environment.token == '') {
+      alert('Ai não né... =/')
+      this.router.navigate(['/entrar'])
+    }
 
     let idTema = this.route.snapshot.params['id']
     this.buscarTemaPorId(idTema)

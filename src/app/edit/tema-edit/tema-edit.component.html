@@ -1,16 +1,20 @@
-<div class="container-fluid">
+<div class="container-fluid py-5">
   <div class="container">
-    <h1>Editar tema</h1>
+    <h1 class="text-center">Editar tema</h1>
 
-    <div class="row">
+    <div class="row d-flex justify-content-center">
       <div class="col-md-8">
         <div class="form-group">
           <label for="">Descricao</label>
           <input type="text" name="descricao" id="tema" class="form-control" [(ngModel)]="tema.descricao">
         </div>
 
-        <button class="btn btn-outline-danger" routerLink="/temas">Cancelar</button>
-        <button class="btn btn-outline-dark" (click)="editarTema()">Editar</button>
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-6 d-flex justify-content-around">
+            <button class="btn btn-outline-danger" routerLink="/temas">Cancelar</button>
+            <button class="btn btn-outline-dark" (click)="editarTema()">Editar</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
