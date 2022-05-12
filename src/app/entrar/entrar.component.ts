@@ -30,7 +30,7 @@ export class EntrarComponent implements OnInit {
         environment.usuario = this.usuarioLogin.usuario
         environment.tipo = this.usuarioLogin.tipo
 
-
+        console.log(environment)
         this.router.navigate(['/inicio']);
       },
       error: (error) => {
@@ -41,14 +41,4 @@ export class EntrarComponent implements OnInit {
     });
   }
 
-  validaEmail() {
-    let regex = /.+\@.+\..+/
-    if(this.usuarioLogin.usuario.match(regex)) {
-      let txtEmail = (<HTMLDivElement>document.querySelector('#txtEmail'))
-      txtEmail.innerHTML = 'E-mail válido'
-    } else {
-      let txtEmail = (<HTMLDivElement>document.querySelector('#txtEmail'))
-      txtEmail.innerHTML = 'E-mail inválido'
-    }
-  }
 }

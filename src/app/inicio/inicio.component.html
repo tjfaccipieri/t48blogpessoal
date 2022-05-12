@@ -23,22 +23,95 @@
       <a class="nav-link text-dark active" id="todasPostagens-tab" data-toggle="tab" href="#todasPostagens" role="tab" aria-controls="todasPostagens" aria-selected="true">Todas as postagens</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link text-dark" id="minhasPostagens-tab" data-toggle="tab" href="#minhasPostagens" role="tab" aria-controls="minhasPostagens" aria-selected="false">Minhas postagens</a>
+      <a (click)='buscarUsuarioPorId()' class="nav-link text-dark" id="minhasPostagens-tab" data-toggle="tab" href="#minhasPostagens" role="tab" aria-controls="minhasPostagens" aria-selected="false">Minhas postagens</a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link text-dark" id="postagensTema-tab" data-toggle="tab" href="#postagensTema" role="tab" aria-controls="postagensTema" aria-selected="false">Postagens por tema</a>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="todasPostagens" role="tabpanel" aria-labelledby="todasPostagens-tab">conteudo 1</div>
-    <div class="tab-pane fade" id="minhasPostagens" role="tabpanel" aria-labelledby="minhasPostagens-tab">conteudo 2</div>
-    <div class="tab-pane fade" id="postagensTema" role="tabpanel" aria-labelledby="postagensTema-tab">conteudo 3</div>
+    <!-- !Inicio do todas postagens -->
+    <div class="tab-pane fade show active" id="todasPostagens" role="tabpanel" aria-labelledby="todasPostagens-tab">
+      <div class="row d-flex flex-column " *ngFor="let postagem of listaPostagens">
+        <div class="row d-flex justify-content-center m-0">
+          <div class="col-md-10 border border-2 rounded border-dark p-0 m-0 my-3 p-3">
+            <div class="row">
+              <div class="col-2 d-flex flex-column justify-content-center align-items-center">
+                <img src="{{postagem.usuario.foto}}" alt="" class="img-fluid rounded-circle w-50">
+                <small>{{postagem.usuario.nome}}</small>
+              </div>
+              <div class="col-10">
+                <div class="row d-flex justify-content-between m-0 mx-3">
+                  <p>{{postagem.titulo}}</p>
+                  <small class="text-secondary">{{postagem.tema.descricao}}</small>
+                </div>
+                <small class="m-0">Postagem feita na data de : {{postagem.data | date: 'dd/MM/yyyy'}} às {{postagem.data | date: 'HH:mm'}}</small>
+              </div>
+            </div>
+            <div class="row mx-3 mt-3">
+              <p class="mb-0">{{postagem.texto}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- !Fim do todas postagens -->
+
+    <!-- ?Inicio do minhas postagens -->
+    <div class="tab-pane fade" id="minhasPostagens" role="tabpanel" aria-labelledby="minhasPostagens-tab">
+      <div class="row d-flex flex-column" *ngFor="let postagem of usuario.postagem">
+        <div class="row d-flex justify-content-center m-0">
+          <div class="col-md-10 border border-2 rounded border-dark p-0 m-0 my-3 p-3">
+            <div class="row">
+              <div class="col-2 d-flex flex-column justify-content-center align-items-center">
+                <img src="{{usuario.foto}}" alt="" class="img-fluid rounded-circle w-50">
+                <small>{{usuario.nome}}</small>
+              </div>
+              <div class="col-10">
+                <div class="row d-flex justify-content-between m-0 mx-3">
+                  <p>{{postagem.titulo}}</p>
+                  <small class="text-secondary">{{postagem.tema.descricao}}</small>
+                </div>
+                <small class="m-0">Postagem feita na data de : {{postagem.data | date: 'dd/MM/yyyy'}} às {{postagem.data | date: 'HH:mm'}}</small>
+              </div>
+            </div>
+            <div class="row mx-3 mt-3">
+              <p class="mb-0">{{postagem.texto}}</p>
+            </div>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-6 d-flex justify-content-around">
+                <a [routerLink]="['/postagemEdit', postagem.id]" class="text-primary">Editar</a>
+                <a [routerLink]="['/postagemDelete', postagem.id]" class="text-danger">Apagar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- ?Fim do minhas postagens -->
+
+    <!-- !Inicio do postagens por tema -->
+    <div class="tab-pane fade" id="postagensTema" role="tabpanel" aria-labelledby="postagensTema-tab">
+      <div class="row d-flex " *ngFor="let tema of listaTemas" >
+        <ng-container *ngIf="tema.postagem.length != 0">
+          <div class="col-md-4 d-flex flex-column border border-2 border-dark my-3" *ngFor="let postagem of tema.postagem">
+            <p>{{postagem.titulo}}</p>
+            <p>{{postagem.texto}}</p>
+            <p>{{postagem.usuario.nome}} </p>
+            <p>{{tema.descricao}}</p>
+
+          </div>
+      </ng-container>
+      </div>
+    </div>
+    <!-- !Inicio do postagens por tema -->
   </div>
 </div>
 
 
 
-<!-- Modal -->
+<!-- *Modal -->
 <div class="modal fade" id="novaPostagemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -51,24 +124,24 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="titulo">Título</label>
-          <input type="text" class="form-control" id="titulo" placeholder="Digite o título">
+          <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Digite o título" [(ngModel)]="postagem.titulo">
         </div>
 
         <div class="form-group">
           <label for="texto">Texto</label>
-          <textarea class="form-control" name="texto" id="texto" rows="3"></textarea>
+          <textarea class="form-control" name="texto" id="texto" rows="3" [(ngModel)]="postagem.texto"></textarea>
         </div>
 
         <div class="form-group">
           <label for="texto">Escolha um tema ou <a data-dismiss="modal" routerLink='/temas'>cadastre um novo</a>: </label>
-          <select name="tema" id="tema" class="form-control">
-            <option value="">Temas</option>
+          <select name="tema" id="tema" class="form-control" [(ngModel)]="idTema" (change)="buscarTemaPorId()">
+            <option *ngFor="let tema of listaTemas" value="{{tema.id}}">{{tema.descricao}}</option>
           </select>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger " data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-outline-dark ">Publicar</button>
+        <button type="button" class="btn btn-outline-dark " (click)="criarPostagem()" data-dismiss="modal">Publicar</button>
       </div>
     </div>
   </div>

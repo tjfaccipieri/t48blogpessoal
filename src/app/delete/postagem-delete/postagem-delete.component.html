@@ -1,0 +1,25 @@
+<div class="container-fluid mt-5">
+  <div class="container">
+    <h2 class="text-center">Apagar postagem</h2>
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6">
+        <p>Você está prestes a apagar a postagem abaixo:</p>
+
+        <div class="row border border-1 border-dark rounded">
+          <div class="bg-light w-100 rounded"><h4 class="p-0 m-0 text-center">{{postagem.titulo}}</h4></div>
+          <div class="row p-3 m-0 d-flex flex-column align-items-center w-100">
+            <small class="text-muted text-center">Tema: {{postagem.tema.descricao}}</small>
+            <p>{{postagem.texto}}</p>
+            <small class="text-center">Postado em: {{postagem.data | date: 'dd/MM/yyyy'}}</small>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-around mt-4">
+          <button class="btn btn-outline-secondary" routerLink="/inicio">Deixa queto</button>
+          <button class="btn btn-danger" (click)="apagarPostagem()">Apaga mesmo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

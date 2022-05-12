@@ -1,0 +1,41 @@
+<div class="container-fluid mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2 d-flex flex-column align-items-center">
+        <img src="{{usuario.foto}}" alt="" class="img-fluid rounded-circle">
+        <small>Pré-visualização da foto de perfil</small>
+
+        <p>Você tem {{qtdPosts}} postagens feitas</p>
+      </div>
+      <div class="col-md-10 d-flex justify-content-center">
+        <form class="w-75">
+          <div class="form-group">
+            <label for="">Nome Completo:</label>
+            <input type="text" class="form-control"  name="nome" [(ngModel)]="usuario.nome"  >
+          </div>
+          <div class="form-group">
+            <label for="">Nome de Usuário:</label>
+            <input type="email" class="form-control" disabled placeholder="Digite um e-mail válido" name="email" [(ngModel)]="usuario.usuario">
+          </div>
+          <div class="form-group">
+            <label for="">URL da foto:</label>
+            <input type="text" class="form-control" name="foto" [(ngModel)]="usuario.foto">
+          </div>
+          <div class="form-group">
+            <label for="">Senha:</label>
+            <input type="password" class="form-control" name="senha" (input)="confirmSenha($event)">
+          </div>
+          <div class="form-group">
+            <label for="">Confirmar Senha:</label>
+            <input type="password" class="form-control" name="confirmSenha" [(ngModel)]="usuario.senha">
+          </div>
+
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-outline-dark" routerLink="/inicio">Cancelar</button>
+            <button class="btn btn-outline-primary" (click)="editarUsuario()">Atualizar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
