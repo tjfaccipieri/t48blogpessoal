@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 import { Usuario } from 'src/app/model/Usuario';
+import { AlertasService } from 'src/app/service/alertas.service';
 
 @Component({
   selector: 'app-usuario-edit',
@@ -18,14 +19,15 @@ export class UsuarioEditComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alerta: AlertasService
   ) {}
 
   ngOnInit() {
     window.scroll(0,0)
 
     if(environment.token == ''){
-      alert('Ta tirando né?')
+      this.alerta.showAlertDanger('Ta tirando né?')
       this.router.navigate(['/inicio'])
     }
 
@@ -49,7 +51,7 @@ export class UsuarioEditComponent implements OnInit {
   editarUsuario(){
     this.auth.editar(this.usuario).subscribe((resp: Usuario) => {
       this.usuario = resp;
-      alert('Usuário atualizado com sucesso, faça login novamente')
+      this.alerta.showAlertSuccess('Usuário atualizado com sucesso, faça login novamente')
 
       environment.id = 0
       environment.nome = ''

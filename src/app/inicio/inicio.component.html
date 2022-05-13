@@ -7,7 +7,7 @@
 
         <div class="d-flex justify-content-around">
           <button class="btn btn-outline-light px-5" data-toggle="modal" data-target="#novaPostagemModal">Nova Postagem</button>
-          <button class="btn btn-light px-5">Ver Postagens</button>
+          <a class="btn btn-light px-5" href="#postagens">Ver Postagens</a>
         </div>
       </div>
       <div class="col-md-6">
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<div class="container mt-3">
+<div class="container mt-3" id="postagens">
   <ul class="nav nav-tabs d-flex justify-content-center" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
       <a class="nav-link text-dark active" id="todasPostagens-tab" data-toggle="tab" href="#todasPostagens" role="tab" aria-controls="todasPostagens" aria-selected="true">Todas as postagens</a>
@@ -32,12 +32,19 @@
   <div class="tab-content" id="myTabContent">
     <!-- !Inicio do todas postagens -->
     <div class="tab-pane fade show active" id="todasPostagens" role="tabpanel" aria-labelledby="todasPostagens-tab">
-      <div class="row d-flex flex-column " *ngFor="let postagem of listaPostagens">
+      <div class="row d-flex justify-content-center mt-5 mb-5">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" id="titulo" placeholder="Digite um titulo de postagem para pesquisar" [(ngModel)]='tituloPost' (keyup)='buscarPostagensPorTitulo()'>
+          </div>
+        </div>
+      </div>
+      <div class="row d-flex flex-column " *ngFor="let postagem of listaPostagens | orderBy: key : reverse">
         <div class="row d-flex justify-content-center m-0">
           <div class="col-md-10 border border-2 rounded border-dark p-0 m-0 my-3 p-3">
             <div class="row">
               <div class="col-2 d-flex flex-column justify-content-center align-items-center">
-                <img src="{{postagem.usuario.foto}}" alt="" class="img-fluid rounded-circle w-50">
+                <img src="{{postagem.usuario.foto}}" onerror="this.src = 'https://i.imgur.com/rNUV85x.png' " alt="" class="img-fluid rounded-circle w-50">
                 <small>{{postagem.usuario.nome}}</small>
               </div>
               <div class="col-10">
@@ -51,6 +58,12 @@
             <div class="row mx-3 mt-3">
               <p class="mb-0">{{postagem.texto}}</p>
             </div>
+            <div class="row d-flex justify-content-center" *ngIf="auth.admin()">
+              <div class="col-md-6 d-flex justify-content-around">
+                <a [routerLink]="['/postagemEdit', postagem.id]" class="text-primary">Editar</a>
+                <a [routerLink]="['/postagemDelete', postagem.id]" class="text-danger">Apagar</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -59,7 +72,7 @@
 
     <!-- ?Inicio do minhas postagens -->
     <div class="tab-pane fade" id="minhasPostagens" role="tabpanel" aria-labelledby="minhasPostagens-tab">
-      <div class="row d-flex flex-column" *ngFor="let postagem of usuario.postagem">
+      <div class="row d-flex flex-column" *ngFor="let postagem of usuario.postagem | orderBy: key : reverse">
         <div class="row d-flex justify-content-center m-0">
           <div class="col-md-10 border border-2 rounded border-dark p-0 m-0 my-3 p-3">
             <div class="row">
@@ -95,7 +108,7 @@
     <div class="tab-pane fade" id="postagensTema" role="tabpanel" aria-labelledby="postagensTema-tab">
       <div class="row d-flex " *ngFor="let tema of listaTemas" >
         <ng-container *ngIf="tema.postagem.length != 0">
-          <div class="col-md-4 d-flex flex-column border border-2 border-dark my-3" *ngFor="let postagem of tema.postagem">
+          <div class="col-md-4 d-flex flex-column border border-2 border-dark my-3" *ngFor="let postagem of tema.postagem | orderBy: key : reverse">
             <p>{{postagem.titulo}}</p>
             <p>{{postagem.texto}}</p>
             <p>{{postagem.usuario.nome}} </p>

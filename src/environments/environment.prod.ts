@@ -5,5 +5,7 @@ export const environment = {
   token:'',
   tipo: '',
   usuario: '',
-  foto: ''
+  foto: '',
+  api: 'https://blogpessoalthiago.herokuapp.com',
+  // api: 'http:localhost:8080'
 };

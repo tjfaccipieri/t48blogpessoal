@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Postagem } from 'src/app/model/Postagem';
+import { AlertasService } from 'src/app/service/alertas.service';
 import { PostagemService } from 'src/app/service/postagem.service';
 import { TemaService } from 'src/app/service/tema.service';
 import { environment } from 'src/environments/environment.prod';
@@ -18,14 +19,15 @@ export class PostagemDeleteComponent implements OnInit {
     private postagemService: PostagemService,
     private temaService: TemaService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alerta: AlertasService
   ) { }
 
   ngOnInit() {
     window.scroll(0,0)
 
     if(environment.token == ''){
-      alert('Você precisa estar logado para ficar aqui... 😎')
+      this.alerta.showAlertDanger('Você precisa estar logado para ficar aqui... 😎')
       this.router.navigate(['/entrar'])
     }
 
@@ -43,7 +45,7 @@ export class PostagemDeleteComponent implements OnInit {
 
   apagarPostagem(){
     this.postagemService.deletePostagem(this.postagem.id).subscribe(()=>{
-      alert("We'll miss you... 😥")
+      this.alerta.showAlertInfo("We'll miss you... 😥")
       this.router.navigate(['/inicio'])
     })
   }

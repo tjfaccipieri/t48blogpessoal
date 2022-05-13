@@ -9,6 +9,10 @@
   font-family: 'Poppins', sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .bg-fundo {
   background-color: #505A5F
 }

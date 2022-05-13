@@ -1,3 +1,4 @@
+import { AlertasService } from './../../service/alertas.service';
 import { Tema } from './../../model/Tema';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TemaService } from './../../service/tema.service';
@@ -16,14 +17,15 @@ export class TemaEditComponent implements OnInit {
   constructor(
     private temaService: TemaService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private alerta: AlertasService
   ) { }
 
   ngOnInit(){
     window.scroll(0,0)
 
     if(environment.token == '') {
-      alert('Ai não né... =/')
+      this.alerta.showAlertDanger('Ai não né... =/')
       this.router.navigate(['/entrar'])
     }
 
@@ -38,9 +40,10 @@ export class TemaEditComponent implements OnInit {
   }
 
   editarTema() {
+    this.tema.postagem = []
     this.temaService.putTema(this.tema).subscribe((resp: Tema) => {
       this.tema = resp;
-      alert('Tema atualizado')
+      this.alerta.showAlertInfo('Tema atualizado')
       this.router.navigate(['/temas'])
     })
   }

@@ -7,6 +7,7 @@ import { Tema } from '../model/Tema';
 import { Usuario } from '../model/Usuario';
 import { PostagemService } from '../service/postagem.service';
 import { TemaService } from '../service/tema.service';
+import { AlertasService } from '../service/alertas.service';
 
 @Component({
   selector: 'app-inicio',
@@ -21,22 +22,27 @@ export class InicioComponent implements OnInit {
 
   postagem: Postagem = new Postagem()
   listaPostagens: Postagem[]
+  tituloPost: string
 
   idUsuario = environment.id
   usuario: Usuario = new Usuario()
+
+  key = 'data'
+  reverse = true
 
   constructor(
       private router: Router,
       private temaService: TemaService,
       private postagemService: PostagemService,
-      private auth: AuthService
+      public auth: AuthService,
+      private alerta: AlertasService
     ) { }
 
   ngOnInit() {
     window.scroll(0,0)
 
     if(environment.token == ''){
-      alert('Você precisa estar logado para ficar aqui... 😎')
+      this.alerta.showAlertDanger('Você precisa estar logado para ficar aqui... 😎')
       this.router.navigate(['/entrar'])
     }
 
@@ -44,6 +50,8 @@ export class InicioComponent implements OnInit {
 
     this.buscarTemas()
     this.buscarPostagens()
+
+    
   }
 
   buscarUsuarioPorId(){
@@ -61,7 +69,6 @@ export class InicioComponent implements OnInit {
   buscarTemaPorId() {
     this.temaService.getTemaById(this.idTema).subscribe((resp: Tema) => {
       this.tema = resp
-      console.log(this.tema)
     })
   }
 
@@ -71,11 +78,9 @@ export class InicioComponent implements OnInit {
     this.usuario.id = this.idUsuario
     this.postagem.usuario = this.usuario
 
-    console.log(this.postagem)
-
     this.postagemService.postPostagem(this.postagem).subscribe((resp: Postagem) => {
       this.postagem = resp;
-      alert('Postagem feita com sucesso');
+      this.alerta.showAlertSuccess('Postagem feita com sucesso');
       this.postagem = new Postagem()
       this.buscarPostagens()
     })
@@ -84,8 +89,19 @@ export class InicioComponent implements OnInit {
   buscarPostagens() {
     this.postagemService.getPostagem().subscribe((resp: Postagem[]) => {
       this.listaPostagens = resp;
-      console.log(this.listaPostagens)
     })
   }
+
+  buscarPostagensPorTitulo(){
+    if(this.tituloPost == ''){
+      this.buscarPostagens()
+    } else {
+      this.postagemService.getPostagemByTitulo(this.tituloPost).subscribe((resp: Postagem[]) => {
+        this.listaPostagens = resp
+      })
+    }
+  }
+
+
 
 }

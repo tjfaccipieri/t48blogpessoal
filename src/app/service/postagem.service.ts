@@ -16,22 +16,26 @@ export class PostagemService {
   }
 
   getPostagem(): Observable<Postagem[]> {
-    return this.http.get<Postagem[]>('https://blogpessoalthiago.herokuapp.com/postagens', this.token)
+    return this.http.get<Postagem[]>(`${environment.api}/postagens`, this.token)
   }
 
   getPostagemById(id: number): Observable<Postagem> {
-    return this.http.get<Postagem>(`https://blogpessoalthiago.herokuapp.com/postagens/${id}`, this.token)
+    return this.http.get<Postagem>(`${environment.api}/postagens/${id}`, this.token)
+  }
+
+  getPostagemByTitulo(titulo: string): Observable<Postagem[]> {
+    return this.http.get<Postagem[]>(`${environment.api}/postagens/titulo/${titulo}`, this.token)
   }
 
   postPostagem(postagem: Postagem): Observable<Postagem> {
-    return this.http.post<Postagem>('https://blogpessoalthiago.herokuapp.com/postagens', postagem, this.token)
+    return this.http.post<Postagem>(`${environment.api}/postagens`, postagem, this.token)
   }
 
   putputagem(postagem: Postagem): Observable<Postagem> {
-    return this.http.post<Postagem>('https://blogpessoalthiago.herokuapp.com/postagens', postagem, this.token)
+    return this.http.post<Postagem>(`${environment.api}/postagens`, postagem, this.token)
   }
 
   deletePostagem(id: number) {
-    return this.http.delete(`https://blogpessoalthiago.herokuapp.com/postagens/${id}`, this.token)
+    return this.http.delete(`${environment.api}/postagens/${id}`, this.token)
   }
 }

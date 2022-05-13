@@ -1,3 +1,4 @@
+import { AlertasService } from './../../service/alertas.service';
 import { Tema } from './../../model/Tema';
 import { TemaService } from './../../service/tema.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,13 +18,14 @@ export class TemaDeleteComponent implements OnInit {
   constructor(
     private router: Router,
     private temaService: TemaService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alerta: AlertasService
   ) { }
 
   ngOnInit() {
     window.scroll(0,0)
     if(environment.token == '') {
-      alert('Ai não né... =/')
+      this.alerta.showAlertDanger('Ai não né... =/')
       this.router.navigate(['/entrar'])
     }
 
@@ -39,7 +41,7 @@ export class TemaDeleteComponent implements OnInit {
 
   apagarTema(){
     this.temaService.deleteTema(this.idTema).subscribe(() => {
-      alert('Press F to pay respect')
+      this.alerta.showAlertInfo('Press F to pay respect')
       this.router.navigate(['/temas'])
     })
   }

@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PostagemService } from 'src/app/service/postagem.service';
 import { environment } from 'src/environments/environment.prod';
 import { Tema } from 'src/app/model/Tema';
+import { AlertasService } from 'src/app/service/alertas.service';
 
 @Component({
   selector: 'app-postagem-edit',
@@ -19,18 +20,21 @@ export class PostagemEditComponent implements OnInit {
   listaTemas: Tema[]
   tema: Tema = new Tema()
 
+  data = this.postagem.data
+
   constructor(
     private postagemService: PostagemService,
     private temaService: TemaService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alerta: AlertasService
   ) { }
 
   ngOnInit() {
     window.scroll(0,0)
 
     if(environment.token == ''){
-      alert('Você precisa estar logado para ficar aqui... 😎')
+      this.alerta.showAlertDanger('Você precisa estar logado para ficar aqui... 😎')
       this.router.navigate(['/entrar'])
     }
 
@@ -38,6 +42,7 @@ export class PostagemEditComponent implements OnInit {
 
     let idPost = this.route.snapshot.params['id']
     this.buscarPostagemPorId(idPost)
+
   }
 
   buscarTemas(){
@@ -63,7 +68,7 @@ export class PostagemEditComponent implements OnInit {
 
     this.postagemService.putputagem(this.postagem).subscribe((resp: Postagem) => {
       this.postagem = resp;
-      alert('Postagem editada com sucesso')
+      this.alerta.showAlertInfo('Postagem editada com sucesso')
       this.router.navigate(['/inicio'])
     })
   }

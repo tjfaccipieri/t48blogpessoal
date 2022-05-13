@@ -25,24 +25,32 @@ export class AuthService {
   }
 
   getUsuarioById(id: number): Observable<Usuario> {
-    return this.http.get<Usuario>(`https://blogpessoalthiago.herokuapp.com/usuarios/${id}`, this.token)
+    return this.http.get<Usuario>(`${environment.api}/usuarios/${id}`, this.token)
   }
 
   logar(usuarioLogin: UsuarioLogin): Observable<UsuarioLogin> {
-    return this.http.post<UsuarioLogin>('https://blogpessoalthiago.herokuapp.com/usuarios/logar', usuarioLogin)
+    return this.http.post<UsuarioLogin>(`${environment.api}/usuarios/logar`, usuarioLogin)
   }
 
   cadastrar(usuario: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>('https://blogpessoalthiago.herokuapp.com/usuarios/cadastrar', usuario)
+    return this.http.post<Usuario>(`${environment.api}/usuarios/cadastrar`, usuario)
   }
 
   editar(usuario: Usuario): Observable<Usuario> {
-    return this.http.put<Usuario>('https://blogpessoalthiago.herokuapp.com/usuarios/atualizar', usuario, this.token)
+    return this.http.put<Usuario>(`${environment.api}/usuarios/atualizar`, usuario, this.token)
   }
 
   logado(){
     let ok: boolean = false;
     if (environment.token != '') {
+      ok = true
+    }
+    return ok
+  }
+
+  admin(){
+    let ok: boolean = false;
+    if (environment.tipo === 'adm' || environment.tipo === 'admin') {
       ok = true
     }
     return ok

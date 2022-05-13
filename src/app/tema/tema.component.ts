@@ -1,3 +1,4 @@
+import { AlertasService } from './../service/alertas.service';
 import { environment } from './../../environments/environment.prod';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,14 +17,15 @@ export class TemaComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private temaService: TemaService
+    private temaService: TemaService,
+    private alerta: AlertasService
   ) { }
 
   ngOnInit() {
     window.scroll(0,0)
 
     if (environment.token == '') {
-      alert('Vai pá onde???')
+      this.alerta.showAlertDanger('Vai pá onde???')
       this.router.navigate(['/entrar'])
     }
 
@@ -37,10 +39,9 @@ export class TemaComponent implements OnInit {
   }
 
   cadastrarTema() {
-    console.log(this.tema)
     this.temaService.postTema(this.tema).subscribe((resp: Tema) => {
       this.tema = resp;
-      alert('Tema cadastrado com sucesso')
+      this.alerta.showAlertSuccess('Tema cadastrado com sucesso')
       this.tema = new Tema()
       this.buscarTemas()
     })
