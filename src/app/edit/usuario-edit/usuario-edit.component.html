@@ -30,6 +30,15 @@
             <input type="password" class="form-control" name="confirmSenha" [(ngModel)]="usuario.senha">
           </div>
 
+          <div class="form-group" *ngIf="usuario.tipo == 'admin'">
+            <label for="">Tipo de usuário:</label>
+            <select name="tipo" id="tipo" class="form-control">
+              <option value="" disabled selected>Escolha um tipo de usuário</option>
+              <option value="admin">Administrador</option>
+              <option value="padrao">Padrão</option>
+            </select>
+          </div>
+
           <div class="d-flex justify-content-around">
             <button class="btn btn-outline-dark" routerLink="/inicio">Cancelar</button>
             <button class="btn btn-outline-primary" (click)="editarUsuario()">Atualizar</button>

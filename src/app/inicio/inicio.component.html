@@ -41,7 +41,34 @@
       </div>
       <div class="row d-flex flex-column " *ngFor="let postagem of listaPostagens | orderBy: key : reverse">
         <div class="row d-flex justify-content-center m-0">
-          <div class="col-md-10 border border-2 rounded border-dark p-0 m-0 my-3 p-3">
+          <div class="col-md-10 border border-2 rounded border-dark p-0 m-0 my-3 p-3" *ngIf="auth.admin()">
+            <div class="row">
+              <div class="col-2 d-flex flex-column justify-content-center align-items-center">
+                <img src="{{postagem.usuario.foto}}" onerror="this.src = 'https://i.imgur.com/rNUV85x.png' " alt="" class="img-fluid rounded-circle w-50">
+                <small>{{postagem.usuario.nome}}</small>
+              </div>
+              <div class="col-10">
+                <div class="row d-flex justify-content-between m-0 mx-3">
+                  <p>{{postagem.titulo}}</p>
+                  <small class="text-secondary">{{postagem.tema.descricao}}</small>
+                </div>
+                <small class="m-0">Postagem feita na data de : {{postagem.data | date: 'dd/MM/yyyy'}} às {{postagem.data | date: 'HH:mm'}}</small>
+              </div>
+            </div>
+            <div class="row mx-3 mt-3">
+              <p class="mb-0">{{postagem.texto}}</p>
+            </div>
+            <div class="row d-flex justify-content-center" *ngIf="auth.admin()">
+              <div class="col-md-6 d-flex justify-content-around">
+                <a [routerLink]="['/postagemEdit', postagem.id]" class="text-primary">Editar</a>
+                <a [routerLink]="['/postagemDelete', postagem.id]" class="text-danger">Apagar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row d-flex justify-content-center m-0">
+          <div class="col-md-6 border border-2 rounded border-dark p-0 m-0 my-3 p-3" *ngIf="!auth.admin()">
             <div class="row">
               <div class="col-2 d-flex flex-column justify-content-center align-items-center">
                 <img src="{{postagem.usuario.foto}}" onerror="this.src = 'https://i.imgur.com/rNUV85x.png' " alt="" class="img-fluid rounded-circle w-50">
